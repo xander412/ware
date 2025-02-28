@@ -4,12 +4,12 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # Route for GET request
-@app.route('/hello', methods=['GET'])
+@app.route('/', methods=['GET'])
 def hello():
     return "Hello, World!"
 
 # Route for POST request
-@app.route('/postdata', methods=['POST'])
+@app.route('/', methods=['POST'])
 def post_data():
     data = request.get_json()
     return jsonify(data), 200
