@@ -42,8 +42,7 @@ def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=80
     print(f'Starting server on port {port}...')
     httpd.serve_forever()
 
-if __name__ == '__main__':
-    PORT = int(os.getenv("PORT", 8000))
+PORT = int(os.getenv("PORT", 8000))
 
-    run(port=PORT)
+run(port=PORT)
 
