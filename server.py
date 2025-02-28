@@ -10,7 +10,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
         print(f"Client is : {client}")
         print("Send Something Man : ", end = '')
-        self.wfile.write(input().encode())
+        self.wfile.write("Response")
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
