@@ -1,48 +1,19 @@
 
-import os 
-import json
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from flask import Flask, request, jsonify
 
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        # Respond to GET requests
-        client = self.headers.get("client")
+app = Flask(__name__)
 
-        print(f"Client is : {client}")
-        print("Send Something Man : ", end = '')
-        self.wfile.write("Response")
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
+# Route for GET request
+@app.route('/hello', methods=['GET'])
+def hello():
+    return "Hello, World!"
 
-    def do_POST(self):
-        # Handle POST request and print the data received
-        content_length = int(self.headers['Content-Length'])  # Get the size of the data
-        post_data = self.rfile.read(content_length)  # Read the data sent in the POST request
+# Route for POST request
+@app.route('/postdata', methods=['POST'])
+def post_data():
+    data = request.get_json()
+    return jsonify(data), 200
 
-        # Print the received data (for debugging)
-        print("Received POST data:", post_data.decode('utf-8'))
-
-        # Send a JSON response back to the client
-        self.send_response(200)
-        self.send_header("Content-type", "application/json")
-        self.end_headers()
-
-        response = {
-            "status": "success",
-            "received_data": post_data.decode('utf-8')
-        }
-        self.wfile.write(json.dumps(response).encode('utf-8'))
-
-
-# Set up the server to run on port 8000
-def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
-    server_address = ('', port)
-    httpd = server_class(server_address, handler_class)
-    print(f'Starting server on port {port}...')
-    httpd.serve_forever()
-
-PORT = int(os.getenv("PORT", 8000))
-
-run(port=PORT)
+if __name__ == '__main__':
+    app.run(debug=True)
 
